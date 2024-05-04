@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <script src="lib/index.js"></script>
 </head>
 <body>
   <canvas id="canvas" width="500" height="500"></canvas>
@@ -31,29 +32,8 @@
         gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
       }
     `;
-
-  // 创建着色器
-  const vertexShader = gl.createShader(gl.VERTEX_SHADER);
-  const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-
-  // 指定顶点着色器源码
-  gl.shaderSource(vertexShader, VERTEX_SHADER_SOURCE);
-  // 指定片元着色器源码
-  gl.shaderSource(fragmentShader, FRAGMENT_SHADER_SOURCE);
-
-  // 编译着色器
-  gl.compileShader(vertexShader);
-  gl.compileShader(fragmentShader);
-
-  // 创建一个程序对象
-  const program = gl.createProgram();
-
-  gl.attachShader(program, vertexShader);
-  gl.attachShader(program, fragmentShader);
-
-  gl.linkProgram(program);
-
-  gl.useProgram(program);
+  
+  const program = initShader(gl, VERTEX_SHADER_SOURCE, FRAGMENT_SHADER_SOURCE);
 
   // 要绘制的图形是什么，从哪个开始，使用几个顶点
   gl.drawArrays(gl.POINTS, 0, 1);
