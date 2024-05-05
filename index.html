@@ -64,7 +64,10 @@
   const program = initShader(gl, VERTEX_SHADER_SOURCE, FRAGMENT_SHADER_SOURCE);
   const aPosition = gl.getAttribLocation(program, 'aPosition');
   console.log(aPosition);
-  gl.vertexAttrib4f(aPosition, 0.5, 0.5, 0.0, 1.0);
+  // gl.vertexAttrib4f(aPosition, 0.5, 0.5, 0.0, 1.0);
+  // gl.vertexAttrib3f(aPosition, 0.5, 0.5, 0.0);
+  // gl.vertexAttrib2f(aPosition, 0.5, 0.5);
+  gl.vertexAttrib1f(aPosition, 0.5);
 
   // 要绘制的图形是什么，从哪个开始，使用几个顶点
   gl.drawArrays(gl.POINTS, 0, 1);
