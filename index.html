@@ -39,13 +39,17 @@
     // 片元着色器
     // gl_FragColor vec4(1.0, 0.0, 0.0, 1.0) r, g, b, a
     const FRAGMENT_SHADER_SOURCE = `
+      precision mediump float;
+      uniform vec4 uColor;
       void main() {
-        gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+        gl_FragColor = uColor;
       }
     `;
   
   const program = initShader(gl, VERTEX_SHADER_SOURCE, FRAGMENT_SHADER_SOURCE);
   const aPosition = gl.getAttribLocation(program, 'aPosition');
+  const uColor = gl.getUniformLocation(program, 'uColor');
+  gl.uniform4f(uColor, 1.0, 0.0, 0.0, 1.0);
   // gl.vertexAttrib1f(aPosition, 0.0);
 
   // 要绘制的图形是什么，从哪个开始，使用几个顶点
