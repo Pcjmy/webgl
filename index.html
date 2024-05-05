@@ -10,28 +10,11 @@
       margin: 0;
       padding: 0;
     }
-    #canvas {
-      background: gray;
-    }
-    body::after {
-      content: '';
+
+    canvas {
+      margin: 50px auto 0;
       display: block;
-      width: 1px;
-      height: 600px;
-      background: red;
-      position: absolute;
-      top: 0;
-      left: 300px;
-    }
-    body::before {
-      content: '';
-      display: block;
-      width: 600px;
-      height: 1px;
-      background: red;
-      position: absolute;
-      top: 300px;
-      left: 0;
+      background: aqua;
     }
   </style>
 </head>
@@ -63,24 +46,33 @@
   
   const program = initShader(gl, VERTEX_SHADER_SOURCE, FRAGMENT_SHADER_SOURCE);
   const aPosition = gl.getAttribLocation(program, 'aPosition');
-  console.log(aPosition);
-  // gl.vertexAttrib4f(aPosition, 0.5, 0.5, 0.0, 1.0);
-  // gl.vertexAttrib3f(aPosition, 0.5, 0.5, 0.0);
-  // gl.vertexAttrib2f(aPosition, 0.5, 0.5);
-  // gl.vertexAttrib1f(aPosition, 0.5);
+  // gl.vertexAttrib1f(aPosition, 0.0);
 
   // 要绘制的图形是什么，从哪个开始，使用几个顶点
   // gl.drawArrays(gl.POINTS, 0, 1);
 
-  let x = 0;
-  setInterval(() => {
-    x += 0.1;
-    if (x > 1.0) {
-      x = 0;
-    }
-    gl.vertexAttrib1f(aPosition, x);
+  canvas.onclick = function(e) {
+    const x = e.clientX;
+    const y = e.clientY;
+
+    const domPosition = e.target.getBoundingClientRect();
+    // console.log(domPosition, canvas.offsetTop, canvas.offsetLeft);
+
+    const domx = x - domPosition.left;
+    const domy = y - domPosition.top;
+
+    const halfWidth = canvas.offsetWidth / 2;
+    const halfHeight = canvas.offsetHeight / 2;
+
+    const clickX = (domx - halfWidth) / halfWidth;
+    const clickY = (halfHeight - domy) / halfHeight;
+
+    console.log(clickX, clickY);
+
+    gl.vertexAttrib2f(aPosition, clickX, clickY);
     gl.drawArrays(gl.POINTS, 0, 1);
-  }, 200)
+  }
   </script>
 </body>
 </html>
+ 
