@@ -39,50 +39,25 @@
     // 片元着色器
     // gl_FragColor vec4(1.0, 0.0, 0.0, 1.0) r, g, b, a
     const FRAGMENT_SHADER_SOURCE = `
-      precision mediump float;
-      uniform vec2 uColor;
       void main() {
-        gl_FragColor = vec4(uColor.r, uColor.g, 0.0, 1.0);
+        gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
       }
     `;
   
   const program = initShader(gl, VERTEX_SHADER_SOURCE, FRAGMENT_SHADER_SOURCE);
   const aPosition = gl.getAttribLocation(program, 'aPosition');
-  const uColor = gl.getUniformLocation(program, 'uColor');
-  // gl.uniform1f(uColor, 1.0);
-  // gl.vertexAttrib1f(aPosition, 0.0);
-
-  // 要绘制的图形是什么，从哪个开始，使用几个顶点
-  // gl.drawArrays(gl.POINTS, 0, 1);
-
-  const points = [];
-  canvas.onclick = function(e) {
-    const x = e.clientX;
-    const y = e.clientY;
-
-    const domPosition = e.target.getBoundingClientRect();
-    // console.log(domPosition, canvas.offsetTop, canvas.offsetLeft);
-
-    const domx = x - domPosition.left;
-    const domy = y - domPosition.top;
-
-    const halfWidth = canvas.offsetWidth / 2;
-    const halfHeight = canvas.offsetHeight / 2;
-
-    const clickX = (domx - halfWidth) / halfWidth;
-    const clickY = (halfHeight - domy) / halfHeight;
-
-    console.log(clickX, clickY);
-
-    points.push({ clickX, clickY });
-
-    for(let i = 0; i < points.length; i++) {
-      gl.vertexAttrib2f(aPosition, points[i].clickX, points[i].clickY);
-      gl.uniform2f(uColor, points[i].clickX, points[i].clickY);
-      gl.drawArrays(gl.POINTS, 0, 1);
-    }
-  }
+  const points = new Float32Array([
+    -0.5, -0.5,
+    0.5, -0.5,
+    0.0, 0.5,
+  ]);
+  const buffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+  gl.bufferData(gl.ARRAY_BUFFER, points, gl.STATIC_DRAW);
+  gl.vertexAttribPointer(aPosition, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(aPosition);
+  // gl.vertexAttrib2f(aPosition, 0.0, 0.0);
+  gl.drawArrays(gl.POINTS, 0, 3);
   </script>
 </body>
 </html>
- 
