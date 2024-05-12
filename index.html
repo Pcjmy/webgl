@@ -62,13 +62,13 @@
 
     let x = 1;
     setInterval(() => {
-      x += 0.01;
+      x += 0.1;
       if (x > 2) {
         x -= 1;
       }
       gl.vertexAttrib1f(aScale, x);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
-    })
+    }, 60)
   </script> 
 </body>
 </html>
