@@ -30,9 +30,9 @@
     const VERTEX_SHADER_SOURCE = `
       // 只传递顶点数据
       attribute vec4 aPosition;
-      attribute float aTranslate;
+      attribute float aScale;
       void main() {
-        gl_Position = vec4(aPosition.x + aTranslate, aPosition.y, aPosition.z, 1.0);
+        gl_Position = vec4(aPosition.x * aScale, aPosition.y, aPosition.z, 1.0);
         gl_PointSize = 10.0;
       }
     `;
@@ -47,25 +47,26 @@
   
     const program = initShader(gl, VERTEX_SHADER_SOURCE, FRAGMENT_SHADER_SOURCE);
     const aPosition = gl.getAttribLocation(program, 'aPosition');
-    const aTranslate = gl.getAttribLocation(program, 'aTranslate');
+    const aScale = gl.getAttribLocation(program, 'aScale');
     const points = new Float32Array([
       -0.5, -0.5,
       0.5, -0.5,
       0.0, 0.5,
     ]);
+
     const buffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
     gl.bufferData(gl.ARRAY_BUFFER, points, gl.STATIC_DRAW);
     gl.vertexAttribPointer(aPosition, 2, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(aPosition);
 
-    let x = -1;
+    let x = 1;
     setInterval(() => {
       x += 0.01;
-      if (x > 1) {
+      if (x > 2) {
         x -= 1;
       }
-      gl.vertexAttrib1f(aTranslate, x);
+      gl.vertexAttrib1f(aScale, x);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
     })
   </script> 
