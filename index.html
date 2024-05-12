@@ -64,7 +64,9 @@
 
   gl.vertexAttribPointer(aPointSize, 1, gl.FLOAT, false, BYTES * 3, BYTES * 2);
   gl.enableVertexAttribArray(aPointSize);
-  gl.drawArrays(gl.POINTS, 0, 3);
+  // gl.drawArrays(gl.LINES, 0, 3);
+  // gl.drawArrays(gl.LINE_STRIP, 0, 3);
+  gl.drawArrays(gl.LINE_LOOP, 0, 3);
   </script>
 </body>
 </html>
