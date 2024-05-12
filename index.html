@@ -64,11 +64,13 @@
     gl.enableVertexAttribArray(aPosition);
 
     let x = 0;
-    setInterval(() => {
-      x += 0.1;
+    function animation() {
+      x += 0.01;
       gl.vertexAttrib1f(deg, x);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
-    }, 60)
+      requestAnimationFrame(animation);
+    }
+    animation();
   </script> 
 </body>
 </html>
