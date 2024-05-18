@@ -30,9 +30,10 @@
     const VERTEX_SHADER_SOURCE = `
       // 只传递顶点数据
       attribute vec4 aPosition;
-      uniform mat4 mat;
+      varying vec4 vColor;
       void main() {
-        gl_Position = mat * aPosition;
+        vColor = aPosition;
+        gl_Position = aPosition;
         gl_PointSize = 10.0;
       }
     `;
@@ -40,8 +41,10 @@
     // 片元着色器
     // gl_FragColor vec4(1.0, 0.0, 0.0, 1.0) r, g, b, a
     const FRAGMENT_SHADER_SOURCE = `
+      precision lowp float;
+      varying vec4 vColor;
       void main() {
-        gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+        gl_FragColor = vColor;
       }
     `;
   
@@ -60,31 +63,7 @@
     gl.bufferData(gl.ARRAY_BUFFER, points, gl.STATIC_DRAW);
     gl.vertexAttribPointer(aPosition, 2, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(aPosition);
-
-    let deg = 0;
-    let translateX = -1;
-    let scaleX = 0.1;
-    function animation() {
-      deg += 0.01;
-      translateX += 0.01;
-      scaleX += 0.01;
-
-      if (translateX > 1) {
-        translateX = -1;
-      }
-
-      if (scaleX > 1.5) {
-        scaleX = 0.1;
-      }
-      const translate = getTranslateMatrix(translateX);
-      const scale = getScaleMatrix(scaleX);
-      const rotate = getRotateMatrix(deg);
-      const matrix = mixMatrix(mixMatrix(translate, scale), rotate);
-      gl.uniformMatrix4fv(mat, false, matrix);
-      gl.drawArrays(gl.TRIANGLES, 0, 3);
-      requestAnimationFrame(animation);
-    }
-    animation();
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
   </script> 
 </body>
 </html>
