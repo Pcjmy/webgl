@@ -49,15 +49,6 @@
     const aPosition = gl.getAttribLocation(program, 'aPosition');
     const mat = gl.getUniformLocation(program, 'mat');
 
-    function getRotateMatrix(x = 0) {
-      return new Float32Array([
-        Math.cos(x), Math.sin(x), 0.0, 0.0,
-        -Math.sin(x), Math.cos(x), 0.0, 0.0,
-        0.0, 0.0, 1.0, 0.0,
-        0.0, 0.0, 0.0, 1.0,
-      ])
-    }
-
     const points = new Float32Array([
       -0.5, -0.5,
       0.5, -0.5,
