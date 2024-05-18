@@ -30,11 +30,9 @@
     const VERTEX_SHADER_SOURCE = `
       // 只传递顶点数据
       attribute vec4 aPosition;
-      uniform mat4 translateMatrix;
-      uniform mat4 scaleMatrix;
-      uniform mat4 rotationMatrix;
+      uniform mat4 mat;
       void main() {
-        gl_Position = translateMatrix * scaleMatrix * rotationMatrix * aPosition;
+        gl_Position = mat * aPosition;
         gl_PointSize = 10.0;
       }
     `;
@@ -49,9 +47,7 @@
   
     const program = initShader(gl, VERTEX_SHADER_SOURCE, FRAGMENT_SHADER_SOURCE);
     const aPosition = gl.getAttribLocation(program, 'aPosition');
-    const translateMatrix = gl.getUniformLocation(program, 'translateMatrix');
-    const scaleMatrix = gl.getUniformLocation(program, 'scaleMatrix');
-    const rotationMatrix = gl.getUniformLocation(program, 'rotationMatrix');
+    const mat = gl.getUniformLocation(program, 'mat');
 
     const points = new Float32Array([
       -0.5, -0.5,
@@ -83,9 +79,7 @@
       const translate = getTranslateMatrix(translateX);
       const scale = getScaleMatrix(scaleX);
       const rotate = getRotateMatrix(deg);
-      gl.uniformMatrix4fv(translateMatrix, false, translate);
-      gl.uniformMatrix4fv(scaleMatrix, false, scale);
-      gl.uniformMatrix4fv(rotationMatrix, false, rotate);
+      gl.uniformMatrix4fv(mat, false, mixMatrix(mixMatrix(translate, scale), rotate));
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       requestAnimationFrame(animation);
     }
