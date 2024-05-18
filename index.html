@@ -65,18 +65,27 @@
     gl.vertexAttribPointer(aPosition, 2, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(aPosition);
 
-    let x = 0;
+    let deg = 0;
+    let translateX = -1;
+    let scaleX = 0.1;
     function animation() {
-      x += 0.01;
-      if (x > 1.5) {
-        x = 0;
+      deg += 0.01;
+      translateX += 0.01;
+      scaleX += 0.01;
+
+      if (translateX > 1) {
+        translateX = -1;
       }
-      const matrix1 = getTranslateMatrix(x, x);
-      const matrix2 = getScaleMatrix(x, x);
-      const matrix3 = getRotateMatrix(x);
-      gl.uniformMatrix4fv(translateMatrix, false, matrix1);
-      gl.uniformMatrix4fv(scaleMatrix, false, matrix2);
-      gl.uniformMatrix4fv(rotationMatrix, false, matrix3);
+
+      if (scaleX > 1.5) {
+        scaleX = 0.1;
+      }
+      const translate = getTranslateMatrix(translateX);
+      const scale = getScaleMatrix(scaleX);
+      const rotate = getRotateMatrix(deg);
+      gl.uniformMatrix4fv(translateMatrix, false, translate);
+      gl.uniformMatrix4fv(scaleMatrix, false, scale);
+      gl.uniformMatrix4fv(rotationMatrix, false, rotate);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       requestAnimationFrame(animation);
     }
