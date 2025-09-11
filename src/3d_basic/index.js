@@ -44,15 +44,15 @@ function getViewMatrix(sourceX, sourceY, sourceZ, targetX, targetY, targetZ, upx
   // 上方向
   const up = new Float32Array([upx, upy, upz]);
 
-  const z = minus(target, source);
+  const z = minus(source, target);
 
   normalized(z);
   normalized(up);
   
-  const x = cross(up, z);
+  const x = cross(z, up);
 
   normalized(x);
-  const y = cross(z, x);
+  const y = cross(x, z);
 
   return new Float32Array([
     x[0], y[0], z[0], 0,
