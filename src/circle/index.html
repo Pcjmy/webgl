@@ -36,7 +36,7 @@
         // 计算距离
         float dis = distance(gl_PointCoord, vec2(0.5, 0.5));
 
-        if (dis > 0.5 || dis < 0.4) {
+        if (dis > 0.5 || (dis < 0.4 && dis > 0.3) || dis < 0.2) {
           discard;
         }
         gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
@@ -44,7 +44,6 @@
     `;
 
     const program = initShader(gl, VERTEX_SHADER_SOURCE, FRAGMENT_SHADER_SOURCE);
-
     gl.drawArrays(gl.POINTS, 0, 1);
   </script>
 </body>
